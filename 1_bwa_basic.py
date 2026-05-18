@@ -10,7 +10,7 @@ from langgraph.types import Send
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
-cclass Task(BaseModel):
+class Task(BaseModel):
     id: int
     title: str
     brief: str = Field(..., description="What to cover")
@@ -45,7 +45,7 @@ def orchestrator(state: State) -> dict:
 
 def fanout(state: State):
     return [Send("worker", {"task": task, "topic": state["topic"], "plan": state["plan"]})
-        for task in state["plan"].tasks]]
+        for task in state["plan"].tasks]
 
 def worker(payload: dict) -> dict:
 
